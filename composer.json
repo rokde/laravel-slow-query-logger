@@ -1,0 +1,22 @@
+{
+	"name": "rokde/laravel-slow-query-logger",
+	"description": "Slow Query Logger for Laravel",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Robert Kummer",
+			"email": "rok@ipunkt.biz"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Rokde\\LaravelSlowQueryLogger\\": "src/"
+		}
+	},
+	"minimum-stability": "stable",
+	"require": {
+		"php": ">=5.5.9",
+		"illuminate/support": "5.2.*",
+		"illuminate/database": "5.2.*"
+	}
+}
