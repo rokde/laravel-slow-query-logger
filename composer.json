@@ -16,7 +16,15 @@
 	"minimum-stability": "stable",
 	"require": {
 		"php": ">=5.5.9",
-		"illuminate/support": "5.2.*",
-		"illuminate/database": "5.2.*"
+		"illuminate/database": "5.*",
+		"illuminate/support": "5.*",
+		"psr/log": "^1.0"
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Rokde\\LaravelSlowQueryLogger\\LaravelSlowQueryLoggerProvider"
+			]
+		}
 	}
 }
