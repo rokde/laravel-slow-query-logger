@@ -5,16 +5,15 @@ namespace Rokde\LaravelSlowQueryLogger;
 use Exception;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
-use Psr\Log\LoggerInterface;
 
 class LaravelSlowQueryLoggerProvider extends ServiceProvider
 {
 	/**
 	 * Bootstrap the application services.
-	 * @param LoggerInterface $log
 	 */
-	public function boot(LoggerInterface $log)
+	public function boot()
 	{
 		if ($this->app->runningInConsole()) {
 			$this->publishes([
@@ -22,7 +21,7 @@ class LaravelSlowQueryLoggerProvider extends ServiceProvider
 			], 'config');
 		}
 
-		$this->setupListener($log);
+		$this->setupListener();
 	}
 
 	/**
@@ -39,21 +38,19 @@ class LaravelSlowQueryLoggerProvider extends ServiceProvider
 
 	/**
 	 * setting up listener
-	 *
-	 * @param LoggerInterface $log
 	 */
-	private function setupListener(LoggerInterface $log)
+	private function setupListener()
 	{
 		if (!config('slow-query-logger.enabled')) {
 			return;
 		}
 
-		DB::listen(function (QueryExecuted $queryExecuted) use ($log) {
+		DB::listen(function (QueryExecuted $queryExecuted) {
 			$sql = $queryExecuted->sql;
 			$bindings = $queryExecuted->bindings;
 			$time = $queryExecuted->time;
 
-			$logSqlQueriesSlowerThan = (float) config('slow-query-logger.time-to-log', -1);
+			$logSqlQueriesSlowerThan = (float)config('slow-query-logger.time-to-log', -1);
 			if ($logSqlQueriesSlowerThan < 0 || $time < $logSqlQueriesSlowerThan) {
 				return;
 			}
@@ -64,7 +61,7 @@ class LaravelSlowQueryLoggerProvider extends ServiceProvider
 					$sql = preg_replace('/\?/', "'{$val}'", $sql, 1);
 				}
 
-				$log->log($level, $time . '  ' . $sql);
+				Log::channel('single')->log($level, $time . '  ' . $sql);
 			} catch (Exception $e) {
 				//  be quiet on error
 			}
