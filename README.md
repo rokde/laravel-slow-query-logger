@@ -8,7 +8,7 @@
 composer require rokde/laravel-slow-query-logger
 ```
 
-Add to `providers` in `config/app.php`:
+In old Laravel you need to add to `providers` in `config/app.php`:
 
 ```
 Rokde\LaravelSlowQueryLogger\LaravelSlowQueryLoggerProvider::class,
@@ -19,10 +19,8 @@ Rokde\LaravelSlowQueryLogger\LaravelSlowQueryLoggerProvider::class,
 Add to your composer.json following lines
 
 	"require": {
-		"rokde/laravel-slow-query-logger": "~0.0"
+		"rokde/laravel-slow-query-logger": "^1.*"
 	}
-
-Add `Rokde\LaravelSlowQueryLogger\LaravelSlowQueryLoggerProvider::class,` to `providers` in `config/app.php`.
 
 Run `php artisan vendor:publish --provider="Rokde\LaravelSlowQueryLogger\LaravelSlowQueryLoggerProvider"`
 
@@ -32,13 +30,19 @@ Run `php artisan vendor:publish --provider="Rokde\LaravelSlowQueryLogger\Laravel
 
 Only log queries longer than this value in microseconds.
 
-### `environments`
+You can set this value through environment variable `LARAVEL_SLOW_QUERY_LOGGER_TIME_TO_LOG`.
 
-Set the enabled environments to log slow queries.
+### `enabled`
+
+Enable the slow queries logger.
+
+You can set this value through environment variable `LARAVEL_SLOW_QUERY_LOGGER_ENABLED`.
 
 ### `log-level`
 
 Set the log-level for logging the slow queries.
+
+You can set this value through environment variable `LARAVEL_SLOW_QUERY_LOGGER_LOG_LEVEL`.
 
 ## Usage
 
